@@ -20,7 +20,7 @@ const Activities = () => {
 				<Box
 					bg="white"
 					height="200px"
-					minH={"500px"}
+					minH={"600px"}
 					borderRadius={"lg"}
 					p={4}
 					px={{ base: "2", md: 8 }}
