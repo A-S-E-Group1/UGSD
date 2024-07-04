@@ -52,7 +52,7 @@ const Nav = () => {
 						</HStack>
 
 						<InputGroup
-							maxW={"sm"}
+							maxW={"lg"}
 							display={{ base: "none", md: "inline-flex" }}
 							borderRadius={8}
 							border={"1px solid #B08B57"}
@@ -65,7 +65,7 @@ const Nav = () => {
 								/>
 							</InputLeftElement>
 							<Input
-								placeholder="Search with index #"
+								placeholder="Search for athlete with full name (e.g. John Doe)"
 								onChange={(e) => setInputValue(e.target.value)}
 								variant="filled.accent"
 								value={inputValue}
