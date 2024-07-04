@@ -80,9 +80,9 @@ export default function Calender() {
             position: "fixed",
             zIndex: 9999,
             top: "50%",
-            left: "50%",
+            left: "55%",
             transform: "translate(-50%, -50%)",
-            boxShadow: "0 2px rgba(0,0,0,0.1)",
+            
           }}
         >
           <div
