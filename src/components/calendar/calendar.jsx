@@ -16,7 +16,8 @@ import {
   AlertIcon,
   CloseButton,
   useToast,
-  HStack
+  HStack,
+  Textarea
 } from "@chakra-ui/react";
 // import { getFirestore, addDoc, collection } from "firebase/firestore";
 const localizer = momentLocalizer(moment);
@@ -402,7 +403,7 @@ export default function CalendarComponent() {
                 onChange={(e) => setEmailSubject(e.target.value)}
               />
               <label style={{ fontWeight: "bold" }}>Email Body:</label>
-              <Input
+              <Textarea
                 placeholder="Enter Body"
                 marginTop={"10px"}
                 type="text"
