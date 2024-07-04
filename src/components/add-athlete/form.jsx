@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
-	discipline,
 	residence,
 	gender,
 	level,
@@ -22,7 +21,6 @@ import {
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import Multiselect from "multiselect-react-dropdown";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
 import { useGlobalContext } from "../../context/context";
 
 const AthleteForm = () => {
@@ -81,7 +79,7 @@ const AthleteForm = () => {
 				full_name,
 				date_of_birth,
 				index,
-				admission_date: admissionYear.getFullYear(),
+				admission_year: admissionYear.getFullYear(),
 				residence,
 				gender,
 				sport,
@@ -131,7 +129,7 @@ const AthleteForm = () => {
 					</FormLabel>
 					<Input
 						type="text"
-						placeholder="Full name"
+						placeholder="Full name (Format: John Doe)"
 						border="1px solid rgba(0,0,0,0.2)"
 						{...register("full_name", {
 							required: "Full Name is required",
@@ -220,15 +218,15 @@ const AthleteForm = () => {
 							fontWeight={"semibold"}
 							alignSelf={{ base: "auto", md: "center" }}
 						>
-							Admission Year
+							Year of Admission
 						</FormLabel>
 						<Box>
-							<DatePicker
-								selected={admissionYear}
-								onChange={(date) => setAdmissionYear(date)}
-								showYearPicker
-								dateFormat="yyyy"
-								placeholderText="Select Year"
+							<Input
+								type="text"
+								placeholder="Enter year of admission"
+								onChange={(e) => setAdmissionYear(new Date(e.target.value))}
+
+								
 							/>
 						</Box>
 					</Stack>

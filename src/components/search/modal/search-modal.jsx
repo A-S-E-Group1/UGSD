@@ -27,8 +27,8 @@ const SearchModal = ({ isOpen, onClose }) => {
 				<ModalCloseButton />
 				<ModalBody>
 					<Input
-						placeholder="Search with index #"
-						value={inputValue}
+						placeholder="Search for athlete with full name (e.g. John Doe)"
+						full_name={inputValue}
 						onChange={(e) => setInputValue(e.target.value)}
 					/>
 				</ModalBody>

@@ -199,6 +199,9 @@ const ViewAthleteTable = ({ data }) => {
 						<Text fontSize={"2xl"} align={"center"} mt={10}>
 							No record found😓
 						</Text>
+						<Text>
+							Please try again.
+						</Text>
 						
 					</>
 				)}

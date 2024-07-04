@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
-	discipline,
 	residence,
 	gender,
 	level,
@@ -112,6 +111,7 @@ const EditAthleteForm = ({ athlete }) => {
 			borderRadius={"12px"}
 			p={{ base: 4, md: 10, lg: 4, xl: 10 }}
 			onSubmit={handleSubmit((data) => onSubmit(data, athlete.id))}
+			
 		>
 			<FormControl isInvalid={errors.full_name} mb={4} isRequired>
 				<Stack direction={{ base: "column", md: "row" }} gap={0}>
@@ -214,14 +214,15 @@ const EditAthleteForm = ({ athlete }) => {
 							fontWeight={"semibold"}
 							alignSelf={{ base: "auto", md: "center" }}
 						>
-							Admission Date
+							Year of Admission
 						</FormLabel>
 						<Input
-							type="date"
+							type="text"
 							border="1px solid rgba(0,0,0,0.2)"
 							{...register("admission_date", {
 								required: "Admission date is required",
 							})}
+							
 							maxW={"100%"}
 						/>
 					</Stack>

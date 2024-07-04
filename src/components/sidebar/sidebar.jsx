@@ -42,7 +42,7 @@ const Sidebar = () => {
 						fontSize={"30px"}
 						textAlign={"center"}
 					>
-						John Doe
+						
 					</Text>
 					<Text as={"h3"} mt={4} textAlign={"center"}>
 						Admin

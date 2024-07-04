@@ -1,11 +1,10 @@
 import {
 	Avatar,
 	Box,
-	Button,
 	Divider,
 	Image,
 	Stack,
-	Text,
+	
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 

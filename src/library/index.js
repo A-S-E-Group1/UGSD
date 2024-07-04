@@ -152,15 +152,17 @@ export const GetAllSportsDiscipline = async () => {
 	}
 };
 
-export const searchAthlete = async (value) => {
+export const searchAthlete = async (full_name) => {
 	try {
 		const athleteDocRef = collection(db, "Athlete Data");
-		const q = query(athleteDocRef, where("index", "==", value));
+		const q = query(athleteDocRef, where("full_name", "==", full_name));
 		const querySnapshot = await getDocs(q);
-
 		const documents = [];
 		querySnapshot.forEach((doc) => {
 			documents.push({ id: doc.id, ...doc.data() });
+
+			
+			
 		});
 
 		return documents;

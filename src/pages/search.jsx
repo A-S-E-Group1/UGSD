@@ -2,11 +2,15 @@ import { Box, Button, Skeleton, Stack, Text, chakra } from "@chakra-ui/react";
 import { useGlobalContext } from "../context/context";
 import Nav from "../components/nav/nav";
 import ViewAthleteTable from "../components/view-athelete/table";
+import { useNavigate,useLocation } from 'react-router-dom';
 
 const SearchPage = () => {
 	const { user, searchResults, isSearching, setSearchResults, setInputValue } =
 		useGlobalContext();
 	console.log(searchResults);
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	return (
 		<chakra.div
 			w="full"
@@ -38,35 +42,39 @@ const SearchPage = () => {
 						</Stack>
 					) : (
 						<>
-							<Stack justifyContent={"space-between"} flexDirection={"row"}>
-								<Text
-									as={"h2"}
-									fontSize={{ base: "lg", sm: "2xl" }}
-									// textAlign={{ base: "center", sm: "left" }}
-									fontWeight={"semibold"}
-								>
-									{" "}
-									Athlete Records
-								</Text>
-								<Button
-									bg={"brand.blue"}
-									type="submit"
-									color={"white"}
-									_hover={{ opacity: 0.7 }}
-									display={
-										searchResults.length > 0 ? "inline-flex" : "none"
-									}
-									onClick={() => {
-										setSearchResults([]);
-										setInputValue("");
-									}}
-								>
-									Clear Results
-								</Button>
-							</Stack>
-							<ViewAthleteTable data={searchResults} user={user} />
-						</>
-					)}
+							{searchResults.length > 0 && (
+      <Stack justifyContent={"space-between"} flexDirection={"row"}>
+        <Text
+          as={"h2"}
+          fontSize={{ base: "lg", sm: "2xl" }}
+          // textAlign={{ base: "center", sm: "left" }}
+          fontWeight={"semibold"}
+        >
+          {" "}
+          Athlete Records
+        </Text>
+        <Button
+          bg={"brand.blue"}
+          type="submit"
+          color={"white"}
+          _hover={{ opacity: 0.7 }}
+          onClick={() => {
+            setSearchResults([]);
+            setInputValue("");
+			if (location.pathname.includes('/admin')) {
+				navigate('/admin');
+			} else {
+				navigate('/');
+			}
+          }}
+        >
+          Clear Results
+        </Button>
+      </Stack>
+    )}
+    <ViewAthleteTable data={searchResults} user={user} />
+  </>
+)}
 				</Box>
 			</Box>
 		</chakra.div>
