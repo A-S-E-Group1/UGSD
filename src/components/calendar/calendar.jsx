@@ -223,232 +223,225 @@ export default function CalendarComponent() {
 
   return (
     <div style={{ height: "600px" }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ margin: "50px" }}
-        selectable={true}
-        onSelectSlot={handleSelectedSlot}
-        onSelectEvent={handleSelectedEvent}
-        popup
-      />
-      {showModal && (
-        <Modal isOpen={true} onClose={() => setShowModal(false)}>
-          <ModalOverlay />
-          <ModalContent width="800px">
-            <ModalHeader
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <h2 style={{ textAlign: "center", flex: 1 }}>
-                {selectedEvent ? "Edit Event" : "Create New Event"}
-              </h2>
-              <CloseButton onClick={() => setShowModal(false)} />
-            </ModalHeader>
-            <ModalBody>
-              <label style={{ fontWeight: "bold" }}>Event Title:</label>
-              <Input
-                placeholder="Enter Event"
-                marginTop={"10px"}
-                marginBottom={"10px"}
-                type="text"
-                className="form-control"
-                id="eventTitle"
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-              />
-              <label style={{ fontWeight: "bold" }}>Event Message:</label>
-              <Input
-                placeholder="Enter Message"
-                marginTop={"10px"}
-                type="text"
-                className="form-control"
-                id="eventMessage"
-                value={eventMessage}
-                onChange={(e) => setEventMessage(e.target.value)}
-              />
-              {saveError && (
-                <Alert status="error" marginTop="10px">
-                  <AlertIcon />
-                  Please enter both event title and message.
-                  <CloseButton
-                    position="absolute"
-                    right="8px"
-                    top="8px"
-                    onClick={() => setSaveError(false)}
-                  />
-                </Alert>
-              )}
-            </ModalBody>
-            <ModalFooter justifyContent="space-between">
-              <HStack spacing={4} flexWrap="wrap">
-                <Button
-                  colorScheme="blue"
-                  onClick={saveEvent}
-                  disabled={!eventTitle || !eventMessage}
-                >
-                  Save
-                </Button>
-                <Button
-                  colorScheme="yellow"
-                  onClick={openShareModal}
-                  disabled={!eventTitle || !eventMessage}
-                >
-                  Share
-                </Button>
-                <Button
-                  colorScheme="green"
-                  onClick={generateEventLink}
-                  disabled={!selectedEvent}
-                >
-                  Get Event Link
-                </Button>
-                <Button
-                  colorScheme="purple"
-                  onClick={openEmailModal}
-                  disabled={!eventTitle || !eventMessage}
-                >
-                  Share via Email
-                </Button>
-                {selectedEvent && (
-                  <Button colorScheme="red" onClick={openDeleteConfirmModal}>
-                    Delete
-                  </Button>
-                )}
-              </HStack>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-      {showShareModal && (
-        <Modal isOpen={true} onClose={closeShareModal}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Share Event</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {shareError && (
-                <Alert status="error" marginBottom="10px">
-                  <AlertIcon />
-                  Please enter both event title and message to share.
-                  <CloseButton
-                    position="absolute"
-                    right="8px"
-                    top="8px"
-                    onClick={() => setShareError(false)}
-                  />
-                </Alert>
-              )}
-              <p>Share the event "{eventTitle}" via:</p><br></br>
-              <Button
-                colorScheme="twitter"
-                mr={3}
-                onClick={() => alert("Share on Twitter")}
-              >
-                Twitter
-              </Button>
-              <Button
-                colorScheme="facebook"
-                mr={3}
-                onClick={() => alert("Share on Facebook")}
-              >
-                Facebook
-              </Button>
-              <Button
-                colorScheme="linkedin"
-                onClick={() => alert("Share on LinkedIn")}
-              >
-                LinkedIn
-              </Button>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={closeShareModal}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-      {showEmailModal && (
-        <Modal isOpen={true} onClose={closeEmailModal}>
-          <ModalOverlay />
-          <ModalContent width="600px">
-            <ModalHeader>Share via Email</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {emailError && (
-                <Alert status="error" marginBottom="10px">
-                  <AlertIcon />
-                  Please enter both email subject and body.
-                  <CloseButton
-                    position="absolute"
-                    right="8px"
-                    top="8px"
-                    onClick={() => setEmailError(false)}
-                  />
-                </Alert>
-              )}
-              <label style={{ fontWeight: "bold" }}>Email Subject:</label>
-              <Input
-                placeholder="Enter Subject"
-                marginTop={"10px"}
-                marginBottom={"10px"}
-                type="text"
-                className="form-control"
-                id="emailSubject"
-                value={emailSubject}
-                onChange={(e) => setEmailSubject(e.target.value)}
-              />
-              <label style={{ fontWeight: "bold" }}>Email Body:</label>
-              <Textarea
-                placeholder="Enter Body"
-                marginTop={"10px"}
-                type="text"
-                className="form-control"
-                id="emailBody"
-                value={emailBody}
-                onChange={(e) => setEmailBody(e.target.value)}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                onClick={sendEmail}
-                disabled={!emailSubject || !emailBody}
-              >
-                Send
-              </Button>
-              <Button colorScheme="gray" onClick={closeEmailModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-      {showDeleteConfirmModal && (
-        <Modal isOpen={true} onClose={closeDeleteConfirmModal}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Confirm Delete</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <p>Are you sure you want to delete this event?</p>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="red" mr={3} onClick={confirmDeleteEvent}>
-                Delete
-              </Button>
-              <Button colorScheme="blue" onClick={closeDeleteConfirmModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
+        <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ margin: "50px" }}
+            selectable={true}
+            onSelectSlot={handleSelectedSlot}
+            onSelectEvent={handleSelectedEvent}
+            popup
+        />
+        {showModal && (
+            <Modal isOpen={true} onClose={() => setShowModal(false)}>
+                <ModalOverlay />
+                <ModalContent width="800px">
+                    <ModalHeader
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                    >
+                        <h2 style={{ textAlign: "center", flex: 1 }}>
+                            {selectedEvent ? "Edit Event" : "Create New Event"}
+                        </h2>
+                        <CloseButton onClick={() => setShowModal(false)} />
+                    </ModalHeader>
+                    <ModalBody>
+                        <label style={{ fontWeight: "bold" }}>Event Title:</label>
+                        <Input
+                            placeholder="Enter Event"
+                            marginTop={"10px"}
+                            marginBottom={"10px"}
+                            type="text"
+                            className="form-control"
+                            id="eventTitle"
+                            value={eventTitle}
+                            onChange={(e) => setEventTitle(e.target.value)}
+                        />
+                        <label style={{ fontWeight: "bold" }}>Event Message:</label>
+                        <Input
+                            placeholder="Enter Message"
+                            marginTop={"10px"}
+                            type="text"
+                            className="form-control"
+                            id="eventMessage"
+                            value={eventMessage}
+                            onChange={(e) => setEventMessage(e.target.value)}
+                        />
+                        {saveError && (
+                            <Alert status="error" marginTop="10px">
+                                <AlertIcon />
+                                Please enter both event title and message.
+                                <CloseButton
+                                    position="absolute"
+                                    right="8px"
+                                    top="8px"
+                                    onClick={() => setSaveError(false)}
+                                />
+                            </Alert>
+                        )}
+                    </ModalBody>
+                    <ModalFooter justifyContent="center" alignItems={"center"}>
+                        <HStack spacing={4} flexWrap="wrap">
+                            <Button
+                                colorScheme="blue"
+                                onClick={saveEvent}
+                                disabled={!eventTitle || !eventMessage}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                colorScheme="yellow"
+                                onClick={openShareModal}
+                                disabled={!eventTitle || !eventMessage}
+                            >
+                                Share
+                            </Button>
+                            <Button
+                                colorScheme="green"
+                                onClick={generateEventLink}
+                                disabled={!selectedEvent}
+                            >
+                                Get Event Link
+                            </Button>
+                            {selectedEvent && (
+                                <Button colorScheme="red" onClick={openDeleteConfirmModal}>
+                                    Delete
+                                </Button>
+                            )}
+                        </HStack>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )}
+        {showShareModal && (
+            <Modal isOpen={true} onClose={closeShareModal}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Share Event</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {shareError && (
+                            <Alert status="error" marginBottom="10px">
+                                <AlertIcon />
+                                Please enter both event title and message to share.
+                                <CloseButton
+                                    position="absolute"
+                                    right="8px"
+                                    top="8px"
+                                    onClick={() => setShareError(false)}
+                                />
+                            </Alert>
+                        )}
+                        <p>Share the event "{eventTitle}" via:</p><br></br>
+                        <HStack spacing={4}>
+                            <Button
+                                colorScheme="twitter"
+                                onClick={() => alert("Share on Twitter")}
+                            >
+                                Twitter
+                            </Button>
+                            <Button
+                                colorScheme="linkedin"
+                                onClick={() => alert("Share on LinkedIn")}
+                            >
+                                LinkedIn
+                            </Button>
+                            <Button
+                                colorScheme="purple"
+                                onClick={openEmailModal}
+                            >
+                                Email
+                            </Button>
+                        </HStack>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={closeShareModal}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )}
+        {showEmailModal && (
+            <Modal isOpen={true} onClose={closeEmailModal}>
+                <ModalOverlay />
+                <ModalContent width="600px">
+                    <ModalHeader>Share via Email</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {emailError && (
+                            <Alert status="error" marginBottom="10px">
+                                <AlertIcon />
+                                Please enter both email subject and body.
+                                <CloseButton
+                                    position="absolute"
+                                    right="8px"
+                                    top="8px"
+                                    onClick={() => setEmailError(false)}
+                                />
+                            </Alert>
+                        )}
+                        <label style={{ fontWeight: "bold" }}>Email Subject:</label>
+                        <Input
+                            placeholder="Enter Subject"
+                            marginTop={"10px"}
+                            marginBottom={"10px"}
+                            type="text"
+                            className="form-control"
+                            id="emailSubject"
+                            value={emailSubject}
+                            onChange={(e) => setEmailSubject(e.target.value)}
+                        />
+                        <label style={{ fontWeight: "bold" }}>Email Body:</label>
+                        <Textarea
+                            placeholder="Enter Body"
+                            marginTop={"10px"}
+                            type="text"
+                            className="form-control"
+                            id="emailBody"
+                            value={emailBody}
+                            onChange={(e) => setEmailBody(e.target.value)}
+                        />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            colorScheme="blue"
+                            mr={3}
+                            onClick={sendEmail}
+                            disabled={!emailSubject || !emailBody}
+                        >
+                            Send
+                        </Button>
+                        <Button colorScheme="gray" onClick={closeEmailModal}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )}
+        {showDeleteConfirmModal && (
+            <Modal isOpen={true} onClose={closeDeleteConfirmModal}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirm Delete</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <p>Are you sure you want to delete this event?</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="red" mr={3} onClick={confirmDeleteEvent}>
+                            Delete
+                        </Button>
+                        <Button colorScheme="blue" onClick={closeDeleteConfirmModal}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )}
     </div>
-  );
+);
 }
