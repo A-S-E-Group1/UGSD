@@ -43,7 +43,7 @@ const Login = ({ setUser }) => {
 			navigate("/admin");
 			toast({
 				title: "Success",
-				description: `Welcome ${user?.user?.email}`,
+				description: `Welcome ${user?.user?.email}😊`,
 				duration: 3000,
 				status: "success",
 				position: "top",

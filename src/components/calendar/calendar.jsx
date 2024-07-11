@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -18,87 +18,168 @@ import {
   useToast,
   HStack,
   Textarea,
-  Spinner
+  CircularProgress,
 } from "@chakra-ui/react";
 import { FaTwitter, FaLinkedin, FaEnvelope } from "react-icons/fa";
-// import { getFirestore, addDoc, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  addDoc,
+  collection,
+  updateDoc,
+  getDocs,
+} from "firebase/firestore";
 const localizer = momentLocalizer(moment);
 
 export default function CalendarComponent() {
+  const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [eventTitle, setEventTitle] = useState("");
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [eventMessage, setEventMessage] = useState("");
+  const [saveError, setSaveError] = useState(false);
+  const [shareError, setShareError] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false); 
+  const [loadingShare, setLoadingShare] = useState(false); 
+  const [loadingDelete, setLoadingDelete] = useState(false); 
+  const [loadingLink, setLoadingLink] = useState(false); 
 
-    const [events, setEvents] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [showShareModal, setShowShareModal] = useState(false);
-    const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [eventTitle, setEventTitle] = useState("");
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [eventMessage, setEventMessage] = useState("");
-    const [saveError, setSaveError] = useState(false);
-    const [shareError, setShareError] = useState(false);
-    const [showEmailModal, setShowEmailModal] = useState(false);
-    const [emailSubject, setEmailSubject] = useState("");
-    const [emailBody, setEmailBody] = useState("");
-    const [emailError, setEmailError] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const db = getFirestore();
+  const toast = useToast();
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventsCol = collection(db, "events");
+        const eventSnapshot = await getDocs(eventsCol);
+        const eventList = eventSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          start: moment(doc.data().start.toDate()).toDate(),
+          end: moment(doc.data().end.toDate()).toDate(),
+        }));
+        setEvents(eventList);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
 
-// const db = getFirestore();
- const toast = useToast();
-// const saveEventToFirestore = async(values) =>{
+    fetchEvents();
+  }, [db]); 
 
-//   const {
-//     event_title,
-//     event_message,
-//   }= values;
+  const saveEvent = async () => {
+    if (eventTitle && eventMessage) {
+      try {
+        setLoadingSave(true); 
+        const eventsCol = collection(db, "events");
+        const newEvent = {
+          title: eventTitle,
+          message: eventMessage,
+          start: selectedDate, 
+          end: moment(selectedDate).add(1, "hour").toDate(), 
+        };
 
-// if(!event_title){
-//   toast({
-//     title: "Error",
-//     description: "Event Title is required",
-//     duration: 3000,
-//     status: "error",
-//     position: "top",
-//   });
-//   return;
-// }
+        if (selectedEvent) {
+          // Update existing event
+          const eventRef = doc(db, "events", selectedEvent.id);
+          await updateDoc(eventRef, newEvent);
+          setEvents(
+            events.map((event) =>
+              event.id === selectedEvent.id ? { ...event, ...newEvent } : event
+            )
+          );
+        } else {
+          // Add new event
+          const docRef = await addDoc(eventsCol, newEvent);
+          setEvents([...events, { id: docRef.id, ...newEvent }]);
+        }
 
-// if(!event_message){
-//   toast({
-//     title: "Error",
-//     description: "Event Message is required",
-//     duration: 3000,
-//     status: "error",
-//     position: "top",
-//   });
-//   return;
-// }
-// try{
-//   await addDoc(collection(db, "Events"),{
-//     event_title,
-//     event_message
-//   })
-//   toast({
-//     title: "Success",
-//     description: "Event Saved Successfully",
-//     duration: 3000,
-//     status: "success",
-//     position: "top",
-//   });
-//   setShowShareModal(false);
-//   setEventTitle("");
-//   setEventMessage("");
-// } catch(error){
-//   console.log(error);
-//   toast({
-//     title: "Error",
-//     description: "Failed to Save Event",
-//     duration: 3000,
-//     status: "error",
-//     position: "top",
-//   });
-// }
- 
+        toast({
+          title: "Event Saved Successfully😊",
+          position: "top",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        setEventTitle("");
+        setEventMessage("");
+        setSelectedDate(null);
+        setSelectedEvent(null);
+        setShowModal(false); // Close the modal
+      } catch (error) {
+        toast({
+          title: "Failed to Save Event",
+          position: "top",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } finally {
+        setLoadingSave(false); // Stop loading animation for save
+      }
+    } else {
+      toast({
+        title: "Title and message are required",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const generateEventLink = async () => {
+    setLoadingLink(true);
+    try {
+      // Simulate an async operation to generate a link
+      const eventLink = `https://yourdomain.com/event?title=${encodeURIComponent(
+        eventTitle
+      )}&message=${encodeURIComponent(eventMessage)}`;
+      navigator.clipboard.writeText(eventLink);
+      showToast("Event Link Copied", "info");
+    } catch (error) {
+      console.error("Error generating event link:", error);
+    } finally {
+      setLoadingLink(false);
+    }
+  };
+
+  const openEmailClient = () => {
+    if (eventTitle && eventMessage) {
+      setLoadingShare(true);
+
+      const emailSubject = encodeURIComponent(eventTitle);
+      const emailBody = encodeURIComponent(eventMessage);
+
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${emailSubject}&body=${emailBody}`;
+      const outlookUrl = `https://outlook.live.com/owa/?path=/mail/action/compose&to=&subject=${emailSubject}&body=${emailBody}`;
+
+      // Attempt to open Gmail first, then Outlook if Gmail is not supported
+      const gmailWindow = window.open(gmailUrl);
+      if (!gmailWindow || gmailWindow.closed || typeof gmailWindow.closed === 'undefined') {
+        window.open(outlookUrl);
+      }
+
+      setLoadingShare(false); 
+    } else {
+      setShareError(true);
+    }
+  };
+
+  const showToast = (title, status) => {
+    toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
   const handleSelectedSlot = (slotInfo) => {
     setShowModal(true);
     setSelectedDate(slotInfo.start);
@@ -111,39 +192,6 @@ export default function CalendarComponent() {
     setEventTitle(event.title);
     setSelectedEvent(event);
     setEventMessage(event.message);
-  };
-
-  const saveEvent = () => {
-    if (eventTitle && selectedDate) {
-      if (selectedEvent) {
-        const updatedEvent = {
-          ...selectedEvent,
-          title: eventTitle,
-          message: eventMessage,
-        };
-        const updatedEvents = events.map((event) =>
-          event === selectedEvent ? updatedEvent : event
-        );
-        setEvents(updatedEvents);
-        showToast("Event Updated Successfully", "success");
-      } else {
-        const newEvent = {
-          title: eventTitle,
-          message: eventMessage,
-          start: selectedDate,
-          end: moment(selectedDate).add(1, "hours").toDate(),
-        };
-        setEvents([...events, newEvent]);
-        showToast("Event Created Successfully", "success");
-      }
-      setShowModal(false);
-      setEventTitle("");
-      setEventMessage("");
-      setSelectedEvent(null);
-      setSaveError(false); // Reset save error state
-    } else {
-      setSaveError(true);
-    }
   };
 
   const openShareModal = () => {
@@ -171,52 +219,17 @@ export default function CalendarComponent() {
 
   const confirmDeleteEvent = () => {
     if (selectedEvent) {
+      setLoadingDelete(true); // Start loading animation for delete
       const updatedEvents = events.filter((event) => event !== selectedEvent);
       setEvents(updatedEvents);
-      showToast("Event Deleted Successfully", "success");
+      showToast("Event Deleted Successfully😊", "success");
       setShowModal(false);
       setEventTitle("");
       setEventMessage("");
       setSelectedEvent(null);
       setShowDeleteConfirmModal(false);
+      setLoadingDelete(false); // Stop loading animation for delete
     }
-  };
-
-  const generateEventLink = async () => {
-    // Simulate an async operation to generate a link
-    setTimeout(() => {
-      const eventLink = `https://yourdomain.com/event?title=${encodeURIComponent(eventTitle)}&message=${encodeURIComponent(eventMessage)}`;
-      navigator.clipboard.writeText(eventLink);
-      showToast("Event Link Copied", "info");
-    }, 1000);
-  };
-
-  const openEmailClient = () => {
-    if (eventTitle && eventMessage) {
-      const emailSubject = encodeURIComponent(eventTitle);
-      const emailBody = encodeURIComponent(eventMessage);
-
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${emailSubject}&body=${emailBody}`;
-      const outlookUrl = `https://outlook.live.com/owa/?path=/mail/action/compose&to=&subject=${emailSubject}&body=${emailBody}`;
-
-      // Attempt to open Gmail first, then Outlook if Gmail is not supported
-      const gmailWindow = window.open(gmailUrl);
-      if (!gmailWindow || gmailWindow.closed || typeof gmailWindow.closed === 'undefined') {
-        window.open(outlookUrl);
-      }
-    } else {
-      setShareError(true);
-    }
-  };
-
-  const showToast = (title, status) => {
-    toast({
-      title: title,
-      status: status,
-      duration: 3000,
-      isClosable: true,
-      position: "top",
-    });
   };
 
   return (
@@ -249,7 +262,7 @@ export default function CalendarComponent() {
             <ModalBody>
               <label style={{ fontWeight: "bold" }}>Event Title:</label>
               <Input
-                placeholder="Enter Event"
+                placeholder="Enter Event Title"
                 marginTop={"10px"}
                 marginBottom={"10px"}
                 type="text"
@@ -287,30 +300,61 @@ export default function CalendarComponent() {
                   colorScheme="blue"
                   onClick={saveEvent}
                   disabled={!eventTitle || !eventMessage}
+                  isLoading={loadingSave}
                 >
-                  Save
+                  {loadingSave && (
+                    <CircularProgress
+                      isIndeterminate
+                      size="24px"
+                      color="blue.300"
+                    />
+                  )}
+                  {!loadingSave && "Save"}
                 </Button>
                 <Button
                   colorScheme="yellow"
                   onClick={openShareModal}
                   disabled={!eventTitle || !eventMessage}
+                  isLoading={loadingShare}
                 >
-                  Share via social media
+                  {loadingShare && (
+                    <CircularProgress
+                      isIndeterminate
+                      size="24px"
+                      color="yellow.300"
+                    />
+                  )}
+                  {!loadingShare && "Share via social media"}
                 </Button>
                 <Button
                   colorScheme="green"
                   onClick={generateEventLink}
                   disabled={!eventTitle || !eventMessage}
+                  isLoading={loadingLink}
                 >
-                  Get Event Link
+                  {loadingLink && (
+                    <CircularProgress
+                      isIndeterminate
+                      size="24px"
+                      color="green.300"
+                    />
+                  )}
+                  {!loadingLink && "Get Event Link"}
                 </Button>
                 {selectedEvent && (
-                  <Button colorScheme="red" onClick={openDeleteConfirmModal}>
-                    Delete
+                  <Button colorScheme="red" onClick={openDeleteConfirmModal} isLoading={loadingDelete}>
+                    {loadingDelete && (
+                      <CircularProgress
+                        isIndeterminate
+                        size="24px"
+                        color="red.300"
+                      />
+                    )}
+                    {!loadingDelete && "Delete"}
                   </Button>
                 )}
                 <Button colorScheme="purple" onClick={openEmailClient}>
-                  <FaEnvelope style={{marginRight:"7px"}}/> Share via Email
+                  <FaEnvelope style={{ marginRight: "7px" }} /> Share via Email
                 </Button>
               </HStack>
             </ModalFooter>
@@ -336,10 +380,13 @@ export default function CalendarComponent() {
               </Alert>
             )}
             <p
-            style={{
-              fontStyle:"italic"
-            }}
-            >Share the event "{eventTitle}" via:</p><br></br>
+              style={{
+                fontStyle: "italic",
+              }}
+            >
+              Share the event "{eventTitle}" via:
+            </p>
+            <br></br>
             <HStack spacing={4}>
               <Button
                 colorScheme="twitter"
@@ -362,7 +409,10 @@ export default function CalendarComponent() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal isOpen={showDeleteConfirmModal} onClose={closeDeleteConfirmModal}>
+      <Modal
+        isOpen={showDeleteConfirmModal}
+        onClose={closeDeleteConfirmModal}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Confirm Delete</ModalHeader>
@@ -371,7 +421,12 @@ export default function CalendarComponent() {
             <p>Are you sure you want to delete this event?</p>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={confirmDeleteEvent}>
+            <Button
+              colorScheme="red"
+              mr={3}
+              onClick={confirmDeleteEvent}
+              isLoading={loadingDelete}
+            >
               Delete
             </Button>
             <Button colorScheme="blue" onClick={closeDeleteConfirmModal}>

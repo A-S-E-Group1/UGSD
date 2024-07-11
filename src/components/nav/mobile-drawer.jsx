@@ -45,7 +45,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
 								fontSize={"30px"}
 								textAlign={"center"}
 							>
-								John Doe
+								
 							</Text>
 							<Text as={"h3"} textAlign={"center"}>
 								Admin

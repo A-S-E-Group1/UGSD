@@ -14,22 +14,26 @@ import SearchPage from "./pages/search";
 
 function App() {
 	return (
-		<Routes>
-			<Route path="/" element={<PublicHome />}>
-				<Route index element={<SearchPage />} />
-				<Route path="activities" element={<Activities />} />
-			</Route>
-			<Route path="/admin" element={<ProtectedRoute children={<Home />} />}>
-				<Route index element={<ViewAthlete />} />
-				<Route path="add" element={<AddAthlete />} />
-				<Route path="activities" element={<Activities />} />
-				<Route path="edit/:id" element={<EditAthlete />} />
-				<Route path="search" element={<SearchPage />} />
-			</Route>
-			<Route exact path="/login" element={<Login />} />
-			<Route exact path="/reset-password" element={<ResetPassword />} />
-		</Routes>
+	  <Routes>
+		{/* Public routes accessible to all users */}
+		<Route path="/" element={<PublicHome />}>
+		  <Route index element={<SearchPage />} />
+		  <Route path="activities" element={<Activities />} />
+		</Route>
+  
+		{/* Admin routes protected with authentication */}
+		<Route path="/admin" element={<ProtectedRoute children={<Home />} />}>
+		  <Route index element={<ViewAthlete />} />
+		  <Route path="add" element={<AddAthlete />} />
+		  <Route path="activities" element={<Activities />} />
+		  <Route path="edit/:id" element={<EditAthlete />} />
+		  <Route path="search" element={<SearchPage />} />
+		</Route>
+  
+		{/* Public routes */}
+		<Route exact path="/login" element={<Login />} />
+		<Route exact path="/reset-password" element={<ResetPassword />} />
+	  </Routes>
 	);
-}
-
+  }
 export default App;

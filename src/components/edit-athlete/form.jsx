@@ -73,14 +73,14 @@ const EditAthleteForm = ({ athlete }) => {
 
 		toast({
 			title: "Great",
-			description: `Athlete updated successfully`,
+			description: `Athlete updated successfully😊`,
 			status: "success",
 			duration: 5000,
 			isClosable: true,
 			position: "top",
 		});
 
-		navigate("/");
+		navigate(`/admin`);
 	};
 
 	useEffect(() => {
