@@ -20,7 +20,7 @@ import {
   Textarea,
   CircularProgress,
 } from "@chakra-ui/react";
-import { FaTwitter, FaLinkedin,  } from "react-icons/fa";
+import { FaTwitter, FaLinkedin } from "react-icons/fa";
 import {
   getFirestore,
   doc,
@@ -29,6 +29,7 @@ import {
   updateDoc,
   getDocs,
 } from "firebase/firestore";
+
 const localizer = momentLocalizer(moment);
 
 export default function AdminCalendar() {
@@ -42,10 +43,10 @@ export default function AdminCalendar() {
   const [eventMessage, setEventMessage] = useState("");
   const [saveError, setSaveError] = useState(false);
   const [shareError, setShareError] = useState(false);
-  const [loadingSave, setLoadingSave] = useState(false); 
-  const [loadingShare, setLoadingShare] = useState(false); 
-  const [loadingDelete, setLoadingDelete] = useState(false); 
-  const [loadingLink, setLoadingLink] = useState(false); 
+  const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingShare, setLoadingShare] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingLink, setLoadingLink] = useState(false);
 
   const db = getFirestore();
   const toast = useToast();
@@ -55,31 +56,35 @@ export default function AdminCalendar() {
       try {
         const eventsCol = collection(db, "events");
         const eventSnapshot = await getDocs(eventsCol);
-        const eventList = eventSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          start: moment(doc.data().start.toDate()).toDate(),
-          end: moment(doc.data().end.toDate()).toDate(),
-        }));
+        const eventList = eventSnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            title: data.title,
+            message: data.message,
+            start: data.start.toDate(),
+            end: data.end.toDate(),
+          };
+        });
         setEvents(eventList);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
-  
+
     fetchEvents();
   }, [db]);
 
   const saveEvent = async () => {
     if (eventTitle && eventMessage) {
       try {
-        setLoadingSave(true); 
+        setLoadingSave(true);
         const eventsCol = collection(db, "events");
         const newEvent = {
           title: eventTitle,
           message: eventMessage,
-          start: selectedDate, 
-          end: moment(selectedDate).add(1, "hour").toDate(), 
+          start: selectedDate,
+          end: moment(selectedDate).add(1, "hour").toDate(),
         };
 
         if (selectedEvent) {
@@ -109,7 +114,7 @@ export default function AdminCalendar() {
         setEventMessage("");
         setSelectedDate(null);
         setSelectedEvent(null);
-        setShowModal(false); 
+        setShowModal(false);
       } catch (error) {
         toast({
           title: "Failed to Save Event",
@@ -119,7 +124,7 @@ export default function AdminCalendar() {
           isClosable: true,
         });
       } finally {
-        setLoadingSave(false); 
+        setLoadingSave(false);
       }
     } else {
       toast({
@@ -164,7 +169,7 @@ export default function AdminCalendar() {
         window.open(outlookUrl);
       }
 
-      setLoadingShare(false); 
+      setLoadingShare(false);
     } else {
       setShareError(true);
     }
@@ -219,7 +224,7 @@ export default function AdminCalendar() {
 
   const confirmDeleteEvent = () => {
     if (selectedEvent) {
-      setLoadingDelete(true); 
+      setLoadingDelete(true);
       const updatedEvents = events.filter((event) => event !== selectedEvent);
       setEvents(updatedEvents);
       showToast("Event Deleted Successfully😊", "success");
@@ -228,7 +233,7 @@ export default function AdminCalendar() {
       setEventMessage("");
       setSelectedEvent(null);
       setShowDeleteConfirmModal(false);
-      setLoadingDelete(false); 
+      setLoadingDelete(false);
     }
   };
 
@@ -354,7 +359,7 @@ export default function AdminCalendar() {
                   </Button>
                 )}
                 <Button colorScheme="purple" onClick={openEmailClient}>
-                   Share via Email
+                  Share via Email
                 </Button>
               </HStack>
             </ModalFooter>
