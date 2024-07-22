@@ -91,7 +91,7 @@ const Sidebar = () => {
 								: "p-3 text-center block capitalize text-[20px]"
 						}
 					>
-						activities
+						calendar
 					</NavLink>
 					<Divider />
 				</Stack>

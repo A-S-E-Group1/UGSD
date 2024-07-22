@@ -30,7 +30,7 @@ const PublicDrawerBody = ({ onClose }) => {
 						}
 						onClick={onClose}
 					>
-						activities
+						calendar
 					</NavLink>
 					<Divider />
 				</Stack>

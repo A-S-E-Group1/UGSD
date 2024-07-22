@@ -9,7 +9,8 @@ import EditAthlete from "./pages/edit-athlete";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicHome from "./pages/public/home";
 import SearchPage from "./pages/search";
-
+import CalendarComponent from "./components/calendar/calendar";
+import PublicCalendar from "./components/calendar/publicCalender";
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
 		<Route path="/" element={<PublicHome />}>
 		  <Route index element={<SearchPage />} />
 		  <Route path="activities" element={<Activities />} />
+		  <Route path="/" element={<PublicCalendar />} />
+
 		</Route>
   
 		{/* Admin routes protected with authentication */}
@@ -28,6 +31,8 @@ function App() {
 		  <Route path="activities" element={<Activities />} />
 		  <Route path="edit/:id" element={<EditAthlete />} />
 		  <Route path="search" element={<SearchPage />} />
+		  <Route path="/admin" element={<CalendarComponent />} />
+        
 		</Route>
   
 		{/* Public routes */}

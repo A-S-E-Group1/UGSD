@@ -73,7 +73,7 @@ const EditAthleteForm = ({ athlete }) => {
 
 		toast({
 			title: "Great",
-			description: `Athlete updated successfully😊`,
+			description: `Athlete record updated successfully😊`,
 			status: "success",
 			duration: 5000,
 			isClosable: true,

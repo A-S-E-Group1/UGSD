@@ -87,7 +87,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
 										}
 										onClick={onClose}
 									>
-										activities
+										calendar
 									</NavLink>
 									<Divider />
 								</Stack>

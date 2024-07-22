@@ -20,7 +20,7 @@ import {
   Textarea,
   CircularProgress,
 } from "@chakra-ui/react";
-import { FaTwitter, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaTwitter, FaLinkedin,  } from "react-icons/fa";
 import {
   getFirestore,
   doc,
@@ -31,7 +31,7 @@ import {
 } from "firebase/firestore";
 const localizer = momentLocalizer(moment);
 
-export default function CalendarComponent() {
+export default function AdminCalendar() {
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -66,9 +66,9 @@ export default function CalendarComponent() {
         console.error("Error fetching events:", error);
       }
     };
-
+  
     fetchEvents();
-  }, [db]); 
+  }, [db]);
 
   const saveEvent = async () => {
     if (eventTitle && eventMessage) {
@@ -109,7 +109,7 @@ export default function CalendarComponent() {
         setEventMessage("");
         setSelectedDate(null);
         setSelectedEvent(null);
-        setShowModal(false); // Close the modal
+        setShowModal(false); 
       } catch (error) {
         toast({
           title: "Failed to Save Event",
@@ -119,7 +119,7 @@ export default function CalendarComponent() {
           isClosable: true,
         });
       } finally {
-        setLoadingSave(false); // Stop loading animation for save
+        setLoadingSave(false); 
       }
     } else {
       toast({
@@ -219,7 +219,7 @@ export default function CalendarComponent() {
 
   const confirmDeleteEvent = () => {
     if (selectedEvent) {
-      setLoadingDelete(true); // Start loading animation for delete
+      setLoadingDelete(true); 
       const updatedEvents = events.filter((event) => event !== selectedEvent);
       setEvents(updatedEvents);
       showToast("Event Deleted Successfully😊", "success");
@@ -228,7 +228,7 @@ export default function CalendarComponent() {
       setEventMessage("");
       setSelectedEvent(null);
       setShowDeleteConfirmModal(false);
-      setLoadingDelete(false); // Stop loading animation for delete
+      setLoadingDelete(false); 
     }
   };
 
@@ -354,7 +354,7 @@ export default function CalendarComponent() {
                   </Button>
                 )}
                 <Button colorScheme="purple" onClick={openEmailClient}>
-                  <FaEnvelope style={{ marginRight: "7px" }} /> Share via Email
+                   Share via Email
                 </Button>
               </HStack>
             </ModalFooter>

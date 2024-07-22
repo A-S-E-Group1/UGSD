@@ -1,5 +1,5 @@
 import { Box, Text, chakra } from "@chakra-ui/react";
-import Calendar from "../components/calendar/calendar";
+import AdminCalendar from "../components/calendar/calendar";
 import Nav from "../components/nav/nav";
 
 const Activities = () => {
@@ -40,7 +40,7 @@ const Activities = () => {
 							{" "}
 							Upcoming Sports Events
 						</Text>
-						<Calendar />
+						<AdminCalendar />
 					</Box>
 					
 				</Box>
