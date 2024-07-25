@@ -28,6 +28,7 @@ import {
   collection,
   updateDoc,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 
 const localizer = momentLocalizer(moment);
@@ -52,26 +53,25 @@ export default function AdminCalendar() {
   const toast = useToast();
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const eventsCol = collection(db, "events");
-        const eventSnapshot = await getDocs(eventsCol);
-        const eventList = eventSnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            title: data.title,
-            message: data.message,
-            start: data.start.toDate(),
-            end: data.end.toDate(),
-          };
-        });
-        setEvents(eventList);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
-
+  const fetchEvents = async () => {
+  try {
+    const eventsCol = collection(db, "events");
+    const eventSnapshot = await getDocs(eventsCol);
+    const eventList = eventSnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title,
+        message: data.message,
+        start: data.start ? data.start.toDate() : new Date(),
+        end: data.end ? data.end.toDate() : new Date(),
+      };
+    });
+    setEvents(eventList);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
+};
     fetchEvents();
   }, [db]);
 
@@ -222,20 +222,34 @@ export default function AdminCalendar() {
     setShowDeleteConfirmModal(false);
   };
 
-  const confirmDeleteEvent = () => {
+  const confirmDeleteEvent = async () => {
     if (selectedEvent) {
       setLoadingDelete(true);
-      const updatedEvents = events.filter((event) => event !== selectedEvent);
-      setEvents(updatedEvents);
-      showToast("Event Deleted Successfully😊", "success");
-      setShowModal(false);
-      setEventTitle("");
-      setEventMessage("");
-      setSelectedEvent(null);
-      setShowDeleteConfirmModal(false);
-      setLoadingDelete(false);
+      try {
+        // Delete the event from the Firestore database
+        const eventRef = doc(db, "events", selectedEvent.id);
+        await deleteDoc(eventRef);
+  
+        // Remove the event from the local state
+        const updatedEvents = events.filter((event) => event.id !== selectedEvent.id);
+        setEvents(updatedEvents);
+  
+        showToast("Event Deleted Successfully😊", "success");
+  
+        setShowModal(false);
+        setEventTitle("");
+        setEventMessage("");
+        setSelectedEvent(null);
+        setShowDeleteConfirmModal(false);
+      } catch (error) {
+        console.error("Error deleting event:", error);
+        showToast("Failed to Delete Event", "error");
+      } finally {
+        setLoadingDelete(false);
+      }
     }
   };
+  
 
   return (
     <div style={{ height: "450px" }}>

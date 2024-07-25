@@ -34,7 +34,7 @@ export default function PublicCalendar() {
         start: moment(doc.data().start.toDate()).toDate(),
         end: moment(doc.data().end.toDate()).toDate(),
       }));
-      console.log("Fetched events:", eventList); // For debugging
+      console.log("Fetched events:", eventList); 
       setEvents(eventList);
     } catch (error) {
       console.error("Error fetching events:", error);
