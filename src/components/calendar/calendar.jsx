@@ -19,8 +19,9 @@ import {
   HStack,
   Textarea,
   CircularProgress,
+  Image
 } from "@chakra-ui/react";
-import { FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 import {
   getFirestore,
   doc,
@@ -30,6 +31,7 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
+import Xlogo from "../../Xlogo.png"
 
 const localizer = momentLocalizer(moment);
 
@@ -141,7 +143,7 @@ export default function AdminCalendar() {
     setLoadingLink(true);
     try {
       // Simulate an async operation to generate a link
-      const eventLink = `https://yourdomain.com/event?title=${encodeURIComponent(
+      const eventLink = `https://uogsd.netlify.app/admin/activities=${encodeURIComponent(
         eventTitle
       )}&message=${encodeURIComponent(eventMessage)}`;
       navigator.clipboard.writeText(eventLink);
@@ -408,10 +410,10 @@ export default function AdminCalendar() {
             <br></br>
             <HStack spacing={4}>
               <Button
-                colorScheme="twitter"
-                onClick={() => alert("Share on Twitter")}
+                colorScheme="black"
+                onClick={() => alert("Share on X")}
               >
-                <FaTwitter />
+                 <Image src={Xlogo} alt="X logo" boxSize="40px" />
               </Button>
               <Button
                 colorScheme="linkedin"
