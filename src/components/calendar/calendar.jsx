@@ -32,6 +32,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import Xlogo from "../../Xlogo.png"
+import instalogo from "../../instalogo.png"
 
 const localizer = momentLocalizer(moment);
 
@@ -408,18 +409,27 @@ export default function AdminCalendar() {
               Share the event "{eventTitle}" via:
             </p>
             <br></br>
-            <HStack spacing={4}>
+            <HStack spacing={2}>
               <Button
                 colorScheme="black"
                 onClick={() => alert("Share on X")}
               >
-                 <Image src={Xlogo} alt="X logo" boxSize="40px" />
+                 <Image src={Xlogo} alt="X logo" boxSize="39px" marginLeft={"0.6"}/>
               </Button>
-              <Button
+              <Button boxSize={"39"}
                 colorScheme="linkedin"
                 onClick={() => alert("Share on LinkedIn")}
+               
               >
-                <FaLinkedin />
+                <FaLinkedin/>
+               
+              </Button>
+              <Button
+                colorScheme="instagram"
+                onClick={() => alert("Share on Instagram")}
+              > 
+              <Image src={instalogo} alt="Instagram logo" boxSize="45px" marginLeft={"-0.5"}/>
+                
               </Button>
             </HStack>
           </ModalBody>
