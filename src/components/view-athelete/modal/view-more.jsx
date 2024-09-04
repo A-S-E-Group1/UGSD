@@ -346,7 +346,7 @@ const ViewMore = ({ isOpen, onClose, athlete, setAthlete }) => {
 										{isEditingMedal ? (
 											<>
 												<Button
-													bg={"red.500"}
+													bg={"red.500 !important"}
 													variant="solid"
 													color={"#fff"}
 													_hover={{ opacity: 0.7 }}
