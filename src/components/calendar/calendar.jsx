@@ -390,14 +390,14 @@ export default function AdminCalendar() {
           <ModalCloseButton />
           <ModalBody>
             {shareError && (
-              <Alert status="error" marginBottom="10px">
-                <AlertIcon />
-                Please enter both event title and message to share.
-                <CloseButton
-                  position="absolute"
-                  right="8px"
-                  top="8px"
-                  onClick={() => setShareError(false)}
+                          <Alert status="error" marginBottom="10px">
+                            <AlertIcon />
+                            Please enter both event title and message to share.
+                            <CloseButton
+                              position="absolute"
+                              right="8px"
+                              top="8px"
+                              onClick={() => setShareError(false)}
                 />
               </Alert>
             )}
