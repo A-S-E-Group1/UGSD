@@ -185,9 +185,9 @@ const Login = ({ setUser }) => {
 								</Link>
 							</Stack>
 							<Button
-								bg={"color !important"}
+								bg={"brand.blue"}
 								type="submit"
-								color={"blue"}
+								color={"white"}
 								_hover={{ opacity: 0.7 }}
 								isLoading={isSubmitting}
 							>
