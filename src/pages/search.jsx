@@ -55,6 +55,7 @@ const SearchPage = () => {
         </Text>
         <Button
           bg={"brand.blue"}
+		  bgColor={"color !important"}
           type="submit"
           color={"white"}
           _hover={{ opacity: 0.7 }}

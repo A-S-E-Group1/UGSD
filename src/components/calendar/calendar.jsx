@@ -19,7 +19,7 @@ import {
   HStack,
   Textarea,
   CircularProgress,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { FaLinkedin } from "react-icons/fa";
 import {
@@ -31,8 +31,8 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
-import Xlogo from "../../Xlogo.png"
-import instalogo from "../../instalogo.png"
+import Xlogo from "../../Xlogo.png";
+import instalogo from "../../instalogo.png";
 
 const localizer = momentLocalizer(moment);
 
@@ -56,25 +56,25 @@ export default function AdminCalendar() {
   const toast = useToast();
 
   useEffect(() => {
-  const fetchEvents = async () => {
-  try {
-    const eventsCol = collection(db, "events");
-    const eventSnapshot = await getDocs(eventsCol);
-    const eventList = eventSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title,
-        message: data.message,
-        start: data.start ? data.start.toDate() : new Date(),
-        end: data.end ? data.end.toDate() : new Date(),
-      };
-    });
-    setEvents(eventList);
-  } catch (error) {
-    console.error("Error fetching events:", error);
-  }
-};
+    const fetchEvents = async () => {
+      try {
+        const eventsCol = collection(db, "events");
+        const eventSnapshot = await getDocs(eventsCol);
+        const eventList = eventSnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            title: data.title,
+            message: data.message,
+            start: data.start ? data.start.toDate() : new Date(),
+            end: data.end ? data.end.toDate() : new Date(),
+          };
+        });
+        setEvents(eventList);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
     fetchEvents();
   }, [db]);
 
@@ -168,7 +168,11 @@ export default function AdminCalendar() {
 
       // Attempt to open Gmail first, then Outlook if Gmail is not supported
       const gmailWindow = window.open(gmailUrl);
-      if (!gmailWindow || gmailWindow.closed || typeof gmailWindow.closed === 'undefined') {
+      if (
+        !gmailWindow ||
+        gmailWindow.closed ||
+        typeof gmailWindow.closed === "undefined"
+      ) {
         window.open(outlookUrl);
       }
 
@@ -232,13 +236,15 @@ export default function AdminCalendar() {
         // Delete the event from the Firestore database
         const eventRef = doc(db, "events", selectedEvent.id);
         await deleteDoc(eventRef);
-  
+
         // Remove the event from the local state
-        const updatedEvents = events.filter((event) => event.id !== selectedEvent.id);
+        const updatedEvents = events.filter(
+          (event) => event.id !== selectedEvent.id
+        );
         setEvents(updatedEvents);
-  
+
         showToast("Event Deleted Successfully😊", "success");
-  
+
         setShowModal(false);
         setEventTitle("");
         setEventMessage("");
@@ -252,7 +258,6 @@ export default function AdminCalendar() {
       }
     }
   };
-  
 
   return (
     <div style={{ height: "450px" }}>
@@ -319,6 +324,7 @@ export default function AdminCalendar() {
             <ModalFooter justifyContent="center" alignItems={"center"}>
               <HStack spacing={4} flexWrap="wrap">
                 <Button
+                 bgColor={"color !important"}
                   colorScheme="blue"
                   onClick={saveEvent}
                   disabled={!eventTitle || !eventMessage}
@@ -349,6 +355,7 @@ export default function AdminCalendar() {
                   {!loadingShare && "Share via social media"}
                 </Button>
                 <Button
+                 bgColor={"color !important"}
                   colorScheme="green"
                   onClick={generateEventLink}
                   disabled={!eventTitle || !eventMessage}
@@ -364,7 +371,12 @@ export default function AdminCalendar() {
                   {!loadingLink && "Get Event Link"}
                 </Button>
                 {selectedEvent && (
-                  <Button colorScheme="red" onClick={openDeleteConfirmModal} isLoading={loadingDelete}>
+                  <Button
+                  bgColor={"color !important"}
+                    colorScheme="red"
+                    onClick={openDeleteConfirmModal}
+                    isLoading={loadingDelete}
+                  >
                     {loadingDelete && (
                       <CircularProgress
                         isIndeterminate
@@ -390,14 +402,14 @@ export default function AdminCalendar() {
           <ModalCloseButton />
           <ModalBody>
             {shareError && (
-                        <Alert status="error" marginBottom="10px">
-                          <AlertIcon />
-                          Please enter both event title and message to share.
-                          <CloseButton
-                            position="absolute"
-                            right="8px"
-                            top="8px"
-                            onClick={() => setShareError(false)}
+              <Alert status="error" marginBottom="10px">
+                <AlertIcon />
+                Please enter both event title and message to share.
+                <CloseButton
+                  position="absolute"
+                  right="8px"
+                  top="8px"
+                  onClick={() => setShareError(false)}
                 />
               </Alert>
             )}
@@ -410,40 +422,42 @@ export default function AdminCalendar() {
             </p>
             <br></br>
             <HStack spacing={2}>
-              <Button
-                colorScheme="black"
-                onClick={() => alert("Share on X")}
-              >
-                 <Image src={Xlogo} alt="X logo" boxSize="39px" marginLeft={"0.6"}/>
+              <Button colorScheme="black" onClick={() => alert("Share on X")}>
+                <Image
+                  src={Xlogo}
+                  alt="X logo"
+                  boxSize="39px"
+                  marginLeft={"0.6"}
+                />
               </Button>
-              <Button boxSize={"39"}
+              <Button
+                boxSize={"39"}
                 colorScheme="linkedin"
                 onClick={() => alert("Share on LinkedIn")}
-               
               >
-                <FaLinkedin/>
-               
+                <FaLinkedin />
               </Button>
               <Button
                 colorScheme="instagram"
                 onClick={() => alert("Share on Instagram")}
-              > 
-              <Image src={instalogo} alt="Instagram logo" boxSize="45px" marginLeft={"-0.5"}/>
-                
+              >
+                <Image
+                  src={instalogo}
+                  alt="Instagram logo"
+                  boxSize="45px"
+                  marginLeft={"-0.5"}
+                />
               </Button>
             </HStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={closeShareModal}>
+            <Button colorScheme="blue" mr={3} onClick={closeShareModal} bgColor={"color !important"}>
               Close
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal
-        isOpen={showDeleteConfirmModal}
-        onClose={closeDeleteConfirmModal}
-      >
+      <Modal isOpen={showDeleteConfirmModal} onClose={closeDeleteConfirmModal}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Confirm Delete</ModalHeader>
@@ -453,6 +467,7 @@ export default function AdminCalendar() {
           </ModalBody>
           <ModalFooter>
             <Button
+             bgColor={"color !important"}
               colorScheme="red"
               mr={3}
               onClick={confirmDeleteEvent}
