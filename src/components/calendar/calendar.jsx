@@ -478,7 +478,10 @@ export default function AdminCalendar() {
             >
               Delete
             </Button>
-            <Button colorScheme="blue" onClick={closeDeleteConfirmModal}>
+            <Button 
+            bg={"brand.blue !important"} 
+            color={"white"}
+            onClick={closeDeleteConfirmModal}>
               Cancel
             </Button>
           </ModalFooter>
