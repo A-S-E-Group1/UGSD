@@ -110,7 +110,6 @@ const Login = ({ setUser }) => {
 						<Image src="/images/ugsd.png" alt="sports" w="150px" />
 					</Box>
 					<chakra.form
-					 bgColor={"color !important"}
 						onSubmit={handleSubmit(onSubmit)}
 						m={12}
 						maxW={"500px"}
@@ -186,6 +185,7 @@ const Login = ({ setUser }) => {
 								</Link>
 							</Stack>
 							<Button
+							 bgColor={"color !important"}
 								bg={"brand.blue"}
 								type="submit"
 								color={"white"}
