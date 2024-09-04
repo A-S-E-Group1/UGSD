@@ -324,7 +324,7 @@ export default function AdminCalendar() {
             <ModalFooter justifyContent="center" alignItems={"center"}>
               <HStack spacing={4} flexWrap="wrap">
                 <Button
-                 bgColor={"color !important"}
+                 bg={"color !important"}
                   colorScheme="blue"
                   onClick={saveEvent}
                   disabled={!eventTitle || !eventMessage}
@@ -467,7 +467,7 @@ export default function AdminCalendar() {
           </ModalBody>
           <ModalFooter>
             <Button
-             bgColor={"color !important"}
+             bg={"color !important"}
               colorScheme="red"
               mr={3}
               onClick={confirmDeleteEvent}
