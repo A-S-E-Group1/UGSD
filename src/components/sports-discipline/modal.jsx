@@ -62,7 +62,7 @@ const AddSportsModal = ({ isOpen, onClose }) => {
 
 				<ModalFooter gap={4}>
 					<Button
-					bg={"red.400"}
+					bg={"red.400 !important"}
 						variant="solid"
 						
 						color={"white"}
@@ -71,7 +71,7 @@ const AddSportsModal = ({ isOpen, onClose }) => {
 						Close
 					</Button>
 					<Button
-						bg={"blue.600"}
+						bg={"blue.600 !important"}
 						color={"white"}
 						mr={3}
 						onClick={submitSport}
