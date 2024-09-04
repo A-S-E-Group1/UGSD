@@ -470,8 +470,8 @@ export default function AdminCalendar() {
           </ModalBody>
           <ModalFooter>
             <Button
-             bg={"color !important"}
-              colorScheme="red"
+             bg={"red.600 !important"}
+             color={"white"}
               mr={3}
               onClick={confirmDeleteEvent}
               isLoading={loadingDelete}

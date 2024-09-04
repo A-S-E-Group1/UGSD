@@ -61,12 +61,14 @@ const Delete = ({ isOpen, onClose, postId, setPostId }) => {
 
 					<AlertDialogFooter>
 						<Button 
+						color={"white"}
 						bg={"blue.500 !important"}
 						ref={cancelRef} 
 						onClick={onClose}>
 							Cancel
 						</Button>
 						<Button
+						color={"white"}
 							bg={"red.600 !important"}
 							ml={3}
 							onClick={deleteAthlete}
