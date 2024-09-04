@@ -54,8 +54,7 @@ const SearchPage = () => {
           Athlete Records
         </Text>
         <Button
-          bg={"brand.blue"}
-		  bgColor={"color !important"}
+          bg={"brand.blue !important"} 
           type="submit"
           color={"white"}
           _hover={{ opacity: 0.7 }}

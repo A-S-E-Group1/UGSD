@@ -324,7 +324,7 @@ export default function AdminCalendar() {
             <ModalFooter justifyContent="center" alignItems={"center"}>
               <HStack spacing={4} flexWrap="wrap">
                 <Button
-                 bg={"color !important"}
+                 bg={"blue !important"}
                   colorScheme="blue"
                   onClick={saveEvent}
                   disabled={!eventTitle || !eventMessage}
@@ -340,7 +340,7 @@ export default function AdminCalendar() {
                   {!loadingSave && "Save"}
                 </Button>
                 <Button
-                  colorScheme="yellow"
+                  colorScheme="yellow !important"
                   onClick={openShareModal}
                   disabled={!eventTitle || !eventMessage}
                   isLoading={loadingShare}
@@ -355,7 +355,7 @@ export default function AdminCalendar() {
                   {!loadingShare && "Share via social media"}
                 </Button>
                 <Button
-                 bgColor={"color !important"}
+                 bgColor={"green !important"}
                   colorScheme="green"
                   onClick={generateEventLink}
                   disabled={!eventTitle || !eventMessage}
@@ -372,7 +372,7 @@ export default function AdminCalendar() {
                 </Button>
                 {selectedEvent && (
                   <Button
-                  bgColor={"color !important"}
+                  bgColor={"red !important"}
                     colorScheme="red"
                     onClick={openDeleteConfirmModal}
                     isLoading={loadingDelete}
@@ -387,7 +387,7 @@ export default function AdminCalendar() {
                     {!loadingDelete && "Delete"}
                   </Button>
                 )}
-                <Button colorScheme="purple" onClick={openEmailClient}>
+                <Button colorScheme="purple !important" onClick={openEmailClient}>
                   Share via Email
                 </Button>
               </HStack>
