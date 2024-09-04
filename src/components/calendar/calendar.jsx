@@ -324,8 +324,8 @@ export default function AdminCalendar() {
             <ModalFooter justifyContent="center" alignItems={"center"}>
               <HStack spacing={4} flexWrap="wrap">
                 <Button
-                 bg={"blue !important"}
-                  colorScheme="blue"
+                color={"white"}
+                 bg={"blue.600 !important"}
                   onClick={saveEvent}
                   disabled={!eventTitle || !eventMessage}
                   isLoading={loadingSave}
@@ -340,7 +340,7 @@ export default function AdminCalendar() {
                   {!loadingSave && "Save"}
                 </Button>
                 <Button
-                  colorScheme="yellow !important"
+                 bg={"yellow.500 !important"}
                   onClick={openShareModal}
                   disabled={!eventTitle || !eventMessage}
                   isLoading={loadingShare}
@@ -355,8 +355,8 @@ export default function AdminCalendar() {
                   {!loadingShare && "Share via social media"}
                 </Button>
                 <Button
-                 bgColor={"green !important"}
-                  colorScheme="green"
+                  color={"white"}
+                  bg={"green.700 !important"}
                   onClick={generateEventLink}
                   disabled={!eventTitle || !eventMessage}
                   isLoading={loadingLink}
@@ -372,8 +372,8 @@ export default function AdminCalendar() {
                 </Button>
                 {selectedEvent && (
                   <Button
-                  bgColor={"red !important"}
-                    colorScheme="red"
+                  color={"white"}
+                  bg={"red.600 !important" }
                     onClick={openDeleteConfirmModal}
                     isLoading={loadingDelete}
                   >
@@ -387,7 +387,10 @@ export default function AdminCalendar() {
                     {!loadingDelete && "Delete"}
                   </Button>
                 )}
-                <Button colorScheme="purple !important" onClick={openEmailClient}>
+                <Button
+                color={"white"}
+                 bg={"purple.500 !important"}
+                  onClick={openEmailClient}>
                   Share via Email
                 </Button>
               </HStack>
