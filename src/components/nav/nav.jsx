@@ -71,6 +71,7 @@ import {
 				  value={inputValue}
 				/>
 				<Button
+				bg={"gray.200 !important"}
 				  onClick={() => {
 					search();
 					if (isAdminPath(pathname)) {
@@ -87,6 +88,7 @@ import {
 			  <HStack>
 				{isAdminPath(pathname) && (
 				  <Button
+				  bg={"gray.200 !important"}
 					size={{ base: "xs", sm: "sm", md: "md" }}
 					onClick={onOpenAddSport}
 				  >

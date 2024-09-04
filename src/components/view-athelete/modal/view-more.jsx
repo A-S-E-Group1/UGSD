@@ -346,7 +346,7 @@ const ViewMore = ({ isOpen, onClose, athlete, setAthlete }) => {
 										{isEditingMedal ? (
 											<>
 												<Button
-													colorScheme="red"
+													bg={"red.500"}
 													variant="solid"
 													color={"#fff"}
 													_hover={{ opacity: 0.7 }}
@@ -357,7 +357,7 @@ const ViewMore = ({ isOpen, onClose, athlete, setAthlete }) => {
 													Cancel
 												</Button>
 												<Button
-													bgColor={"brand.blue"}
+													bgColor={"brand.blue !important"}
 													variant="outline"
 													color={"#fff"}
 													_hover={{ opacity: 0.7 }}
@@ -371,7 +371,7 @@ const ViewMore = ({ isOpen, onClose, athlete, setAthlete }) => {
 											</>
 										) : (
 											<Button
-												bgColor={"brand.blue"}
+												bgColor={"brand.blue !important"}
 												variant="solid"
 												color={"#fff"}
 												_hover={{ opacity: 0.7 }}

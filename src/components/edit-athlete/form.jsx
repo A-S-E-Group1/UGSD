@@ -430,7 +430,7 @@ const EditAthleteForm = ({ athlete }) => {
 				)}
 			</FormControl>
 			<Button
-				bg={"brand.blue"}
+				bg={"brand.blue !important"}
 				display={"flex"}
 				alignSelf={"flex-end"}
 				type="submit"

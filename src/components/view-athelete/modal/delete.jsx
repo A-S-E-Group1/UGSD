@@ -26,7 +26,7 @@ const Delete = ({ isOpen, onClose, postId, setPostId }) => {
 				title: "Error",
 				description: deleteInfo.message,
 				status: "error",
-				duration: 6000,
+				duration: 5000,
 				isClosable: true,
 			});
 			onClose();
@@ -41,7 +41,7 @@ const Delete = ({ isOpen, onClose, postId, setPostId }) => {
 			title: "Success",
 			description: "Record Deleted Successfully",
 			status: "success",
-			duration: 6000,
+			duration: 5000,
 			isClosable: true,
 			position: "top",
 		});
@@ -60,11 +60,14 @@ const Delete = ({ isOpen, onClose, postId, setPostId }) => {
 					</AlertDialogBody>
 
 					<AlertDialogFooter>
-						<Button ref={cancelRef} onClick={onClose}>
+						<Button 
+						bg={"blue.500 !important"}
+						ref={cancelRef} 
+						onClick={onClose}>
 							Cancel
 						</Button>
 						<Button
-							colorScheme="red"
+							bg={"red.600 !important"}
 							ml={3}
 							onClick={deleteAthlete}
 							isLoading={loading}
