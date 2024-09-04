@@ -100,7 +100,6 @@ const MobileDrawer = ({ isOpen, onClose }) => {
 								/>
 							</Box>
 							<Button
-								bg={"white !important"}
 								mx={"auto"}
 								display={"flex"}
 								mt={8}

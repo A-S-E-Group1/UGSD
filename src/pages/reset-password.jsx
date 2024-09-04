@@ -150,7 +150,7 @@ function ResetPassword() {
 								Back to login
 							</Link>
 							<Button
-								bg={"brand.blue"}
+								bg={"brand.blue !important"}
 								type="submit"
 								color={"white"}
 								_hover={{ opacity: 0.7 }}

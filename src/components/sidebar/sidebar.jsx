@@ -98,7 +98,11 @@ const Sidebar = () => {
 			</Box>
 			<Image src="/images/sport.png" alt="sports" mt={4} />
 			{user && (
-				<Button mx={"auto"} display={"flex"} mt={8} onClick={logOut}>
+				<Button
+				bg={"white !important"}
+				 mx={"auto"} 
+				 display={"flex"} mt={8} 
+				 onClick={logOut}>
 					Log out
 				</Button>
 			)}
