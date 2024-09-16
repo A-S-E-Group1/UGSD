@@ -452,7 +452,7 @@ export default function AdminCalendar() {
                   marginLeft={"-0.5"}
                 />
               </Button>
-              <Button
+              <Button bgColor={"color !important"}
                 onClick={() => alert("Share on Facebook")}
               >
                 <FacebookIcon size={"30"}/>
