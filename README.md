@@ -3,7 +3,7 @@
 ## Developers
 
 1. [Emmanuel Yeboah](https://github.com/IchaCoder)
-2. [Jeffery Danquah](https://github.com/Young-1legend)
+2. [Jeffrey Danquah](https://github.com/Young-1legend)
 
 ## Designer
 
