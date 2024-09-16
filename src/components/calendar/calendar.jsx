@@ -438,6 +438,7 @@ export default function AdminCalendar() {
                 colorScheme="linkedin"
                 padding={"0"}
                 onClick={() => alert("Share on LinkedIn")}
+                bg={"blue.500 !important"}
               >
                 <FaLinkedin 
                 size={"26"} />
@@ -470,7 +471,7 @@ export default function AdminCalendar() {
             colorScheme="blue"
              mr={3} 
              onClick={closeShareModal} 
-             bgC={"color !important"}>
+             bg={"blue.600 !important"}>
               Close
             </Button>
           </ModalFooter>
