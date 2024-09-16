@@ -435,11 +435,11 @@ export default function AdminCalendar() {
                 />
               </Button>
               <Button
-               
                 colorScheme="linkedin"
                 onClick={() => alert("Share on LinkedIn")}
               >
-                <FaLinkedin size={"26"} />
+                <FaLinkedin 
+                size={"26"} />
               </Button>
               <Button
                 colorScheme="instagram"
@@ -452,7 +452,8 @@ export default function AdminCalendar() {
                   marginLeft={"-0.5"}
                 />
               </Button>
-              <Button bgColor={"color !important"}
+              <Button
+               bgColor={"color !important"}
                 onClick={() => alert("Share on Facebook")}
               >
                 <FacebookIcon size={"30"}/>
