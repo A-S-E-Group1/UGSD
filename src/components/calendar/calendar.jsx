@@ -457,7 +457,7 @@ export default function AdminCalendar() {
               <Button
                bg={"color !important"}
                marginLeft={"-1"}
-               paddingLeft={"-1"}
+               padding={"0"}
                 onClick={() => alert("Share on Facebook")}
               >
                 <FacebookIcon
