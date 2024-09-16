@@ -436,6 +436,7 @@ export default function AdminCalendar() {
               </Button>
               <Button
                 colorScheme="linkedin"
+                padding={"0"}
                 onClick={() => alert("Share on LinkedIn")}
               >
                 <FaLinkedin 
@@ -454,9 +455,13 @@ export default function AdminCalendar() {
               </Button>
               <Button
                bg={"color !important"}
+               marginLeft={"-1"}
+               paddingLeft={"-1"}
                 onClick={() => alert("Share on Facebook")}
               >
-                <FacebookIcon size={"30"}/>
+                <FacebookIcon
+                
+                 size={"38"}/>
               </Button>
             </HStack>
           </ModalBody>
