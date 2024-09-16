@@ -21,7 +21,7 @@ import {
   CircularProgress,
   Image,
 } from "@chakra-ui/react";
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin} from "react-icons/fa";
 import {
   getFirestore,
   doc,
@@ -33,6 +33,7 @@ import {
 } from "firebase/firestore";
 import Xlogo from "../../Xlogo.png";
 import instalogo from "../../instalogo.png";
+import { FacebookIcon } from "react-share";
 
 const localizer = momentLocalizer(moment);
 
@@ -434,11 +435,11 @@ export default function AdminCalendar() {
                 />
               </Button>
               <Button
-                boxSize={"39"}
+               
                 colorScheme="linkedin"
                 onClick={() => alert("Share on LinkedIn")}
               >
-                <FaLinkedin />
+                <FaLinkedin size={"26"} />
               </Button>
               <Button
                 colorScheme="instagram"
@@ -450,6 +451,11 @@ export default function AdminCalendar() {
                   boxSize="45px"
                   marginLeft={"-0.5"}
                 />
+              </Button>
+              <Button
+                onClick={() => alert("Share on Facebook")}
+              >
+                <FacebookIcon size={"30"}/>
               </Button>
             </HStack>
           </ModalBody>
