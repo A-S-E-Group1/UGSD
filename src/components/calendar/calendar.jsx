@@ -453,7 +453,7 @@ export default function AdminCalendar() {
                 />
               </Button>
               <Button
-               bgColor={"color !important"}
+               bg={"color !important"}
                 onClick={() => alert("Share on Facebook")}
               >
                 <FacebookIcon size={"30"}/>
@@ -461,7 +461,11 @@ export default function AdminCalendar() {
             </HStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={closeShareModal} bgColor={"color !important"}>
+            <Button 
+            colorScheme="blue"
+             mr={3} 
+             onClick={closeShareModal} 
+             bgC={"color !important"}>
               Close
             </Button>
           </ModalFooter>
