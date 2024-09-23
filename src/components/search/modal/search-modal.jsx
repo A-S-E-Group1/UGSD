@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	Modal,
 	ModalOverlay,
@@ -9,15 +9,61 @@ import {
 	ModalCloseButton,
 	Button,
 	Input,
+	Menu,
+	MenuItem,
+	MenuList,
 } from "@chakra-ui/react";
 import { useGlobalContext } from "../../../context/context";
 import { isAdminPath } from "../../../library/utility";
 import { useLocation, useNavigate } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore"; // Firebase
+import { db } from "../../../services/firebase"; // Adjust the path to your firebase config
 
 const SearchModal = ({ isOpen, onClose }) => {
 	const { isSearching, setInputValue, inputValue, search } = useGlobalContext();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
+	const inputRef = useRef(null);
+
+	// States for handling athletes and filtered results
+	const [athletes, setAthletes] = useState([]);
+	const [filteredAthletes, setFilteredAthletes] = useState([]);
+
+	// Fetch athletes from Firestore
+	useEffect(() => {
+		const fetchAthletes = async () => {
+			try {
+				const querySnapshot = await getDocs(collection(db, "Athlete Data"));
+				const athleteList = querySnapshot.docs.map(doc => doc.data().full_name); // Assuming 'full_name' is the field
+				setAthletes(athleteList);
+			} catch (error) {
+				console.error("Error fetching athletes: ", error);
+			}
+		};
+		fetchAthletes();
+	}, []);
+
+	// Filter athletes based on input value
+	useEffect(() => {
+		if (inputValue) {
+			const filtered = athletes.filter((athlete) => {
+				const nameParts = athlete.toLowerCase().split(" ");
+				return nameParts.some((part) =>
+					part.includes(inputValue.toLowerCase())
+				);
+			});
+			setFilteredAthletes(filtered);
+		} else {
+			setFilteredAthletes([]);
+		}
+	}, [inputValue, athletes]);
+
+	// Focus the input field when the modal opens
+	useEffect(() => {
+		if (isOpen && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [isOpen]);
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
@@ -27,10 +73,31 @@ const SearchModal = ({ isOpen, onClose }) => {
 				<ModalCloseButton />
 				<ModalBody>
 					<Input
+						ref={inputRef} // Reference to the input
+						autoFocus // Auto-focus input on open
 						placeholder="Search for athlete with full name (e.g. John Doe)"
-						full_name={inputValue}
+						value={inputValue}
 						onChange={(e) => setInputValue(e.target.value)}
 					/>
+
+					{/* Dropdown for filtered athlete list */}
+					{filteredAthletes.length > 0 && (
+						<Menu isOpen>
+							<MenuList>
+								{filteredAthletes.map((athlete, index) => (
+									<MenuItem
+										key={index}
+										onClick={() => {
+											setInputValue(athlete); // Set input value to selected name
+											setFilteredAthletes([]); // Hide dropdown after selection
+										}}
+									>
+										{athlete}
+									</MenuItem>
+								))}
+							</MenuList>
+						</Menu>
+					)}
 				</ModalBody>
 
 				<ModalFooter gap={4}>
