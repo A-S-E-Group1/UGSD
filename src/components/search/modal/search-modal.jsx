@@ -58,7 +58,7 @@ const SearchModal = ({ isOpen, onClose }) => {
 		}
 	}, [inputValue, athletes]);
 
-	// Focus the input field when the modal opens
+	
 	useEffect(() => {
 		if (isOpen && inputRef.current) {
 			inputRef.current.focus();
@@ -73,9 +73,9 @@ const SearchModal = ({ isOpen, onClose }) => {
 				<ModalCloseButton />
 				<ModalBody>
 					<Input
-						ref={inputRef} // Reference to the input
-						autoFocus // Auto-focus input on open
-						placeholder="Search for athlete with full name (e.g. John Doe)"
+						ref={inputRef} 
+						autoFocus 
+						placeholder="Search for athlete with name"
 						value={inputValue}
 						onChange={(e) => setInputValue(e.target.value)}
 					/>

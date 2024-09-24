@@ -98,7 +98,7 @@ const Nav = () => {
 									<Icon as={FiSearch} color="fg.accent.muted" fontSize="lg" />
 								</InputLeftElement>
 								<Input
-									placeholder="Search for athlete"
+									placeholder="Search for athlete with name"
 									onChange={(e) => setInputValue(e.target.value)}
 									variant="filled.accent"
 									value={inputValue}
