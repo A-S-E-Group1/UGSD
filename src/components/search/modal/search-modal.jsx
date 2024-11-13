@@ -103,13 +103,14 @@ const SearchModal = ({ isOpen, onClose }) => {
 				<ModalFooter gap={4}>
 					<Button
 						variant="solid"
-						backgroundColor={"red.400"}
+						bg={"red.600 !important"}
 						color={"white"}
 						onClick={onClose}
 					>
 						Close
 					</Button>
 					<Button
+					bg={"blue.600 !important"}
 						colorScheme="blue"
 						mr={3}
 						onClick={() => {
